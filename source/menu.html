@@ -1,573 +1,146 @@
+<!-- menu.html (Menu Page) -->
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Bites - Full Menu</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Poppins -->
+    <title>Campus Bites - Menu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        poppins: ['Poppins', 'sans-serif'],
-                    },
-                    colors: {
-                        beige: {
-                            50: '#FDFBF7',
-                            100: '#F4EFEA',
-                            200: '#E6DDD0',
-                            300: '#D4C5B1',
-                        },
-                        coffee: {
-                            500: '#8C6D53',
-                            600: '#6B4F3A',
-                            700: '#4A3322',
-                            800: '#332215',
-                        },
-                        caramel: '#C68B59',
-                        cream: '#FAF6F0',
-                        taupe: '#9E8D85'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #FDFBF7;
-            color: #332215;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F4EFEA;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #D4C5B1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8C6D53;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
-<body class="bg-beige-50 text-coffee-800 antialiased selection:bg-coffee-500 selection:text-white">
-
-    <!-- Notification Toast Container -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-coffee-800 text-cream px-6 py-3 rounded-2xl shadow-xl flex items-center space-x-3 border border-coffee-600">
-        <i class="fa-solid fa-mug-hot text-caramel text-xl"></i>
-        <div>
-            <h4 class="font-semibold text-sm" id="toast-title">Added to order!</h4>
-            <p class="text-xs text-beige-200" id="toast-msg">Your item has been added to your cart.</p>
-        </div>
-    </div>
-
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-beige-200 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Brand Logo -->
-                <a href="#" class="flex items-center space-x-3 group">
-                    <div class="w-11 h-11 rounded-full bg-coffee-700 flex items-center justify-center text-cream shadow-md group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-graduation-cap text-xl text-caramel"></i>
-                    </div>
-                    <div>
-                        <span class="text-2xl font-bold tracking-tight text-coffee-800 font-poppins">Campus Bites</span>
-                        <span class="block text-[10px] uppercase tracking-widest text-taupe font-medium">Student Cafe & Roastery</span>
-                    </div>
-                </a>
-
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#breakfast" class="text-coffee-600 hover:text-coffee-800 font-medium transition-colors">Breakfast</a>
-                    <a href="#fast-food" class="text-coffee-600 hover:text-coffee-800 font-medium transition-colors">Fast Food</a>
-                    <a href="#main-course" class="text-coffee-600 hover:text-coffee-800 font-medium transition-colors">Main Course</a>
-                    <a href="#beverages" class="text-coffee-600 hover:text-coffee-800 font-medium transition-colors">Beverages & Desserts</a>
-                </nav>
-
-                <!-- Right Action (Cart & Mobile Menu Toggle) -->
-                <div class="flex items-center space-x-4">
-                    <button onclick="openCart()" class="relative p-2.5 rounded-full bg-beige-100 hover:bg-beige-200 text-coffee-700 transition-colors focus:outline-none" aria-label="View Cart">
-                        <i class="fa-solid fa-basket-shopping text-lg"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">0</span>
-                    </button>
-                    
-                    <!-- Mobile Hamburger Button -->
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-beige-100 hover:bg-beige-200 text-coffee-700 transition-colors focus:outline-none" aria-label="Toggle Menu">
-                        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-beige-200 px-6 py-4 space-y-3">
-            <a href="#breakfast" onclick="toggleMobileMenu()" class="block text-coffee-600 hover:text-coffee-800 font-medium py-1">Breakfast</a>
-            <a href="#fast-food" onclick="toggleMobileMenu()" class="block text-coffee-600 hover:text-coffee-800 font-medium py-1">Fast Food</a>
-            <a href="#main-course" onclick="toggleMobileMenu()" class="block text-coffee-600 hover:text-coffee-800 font-medium py-1">Main Course</a>
-            <a href="#beverages" onclick="toggleMobileMenu()" class="block text-coffee-600 hover:text-coffee-800 font-medium py-1">Beverages & Desserts</a>
-        </div>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <div class="logo">Campus <span>Bites</span></div>
+            <ul class="nav-links">
+                <li><a href="src/index.html">Home</a></li>
+                <li><a href="source/menu.html" class="active">Menu</a></li>
+                <li><a href="deals.html">Deals</a></li>
+                <li><a href="orders.html">How to Order</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative bg-gradient-to-b from-beige-100 to-beige-50 py-16 md:py-20 overflow-hidden">
-        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-beige-200/50 blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-caramel/10 blur-3xl pointer-events-none"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto">
-                <span class="inline-flex items-center space-x-2 bg-beige-200 text-coffee-700 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 shadow-sm">
-                    <i class="fa-solid fa-utensils text-caramel"></i>
-                    <span>Artisanal Campus Dining</span>
-                </span>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-coffee-800 tracking-tight leading-tight mb-6">
-                    Explore Our <span class="text-caramel italic">Delicious Menu</span>
-                </h1>
-                <p class="text-base sm:text-lg text-taupe max-w-2xl mx-auto font-normal leading-relaxed">
-                    Organized for your cravings. From early morning breakfast fuel to late-night study desserts, priced in PKR.
-                </p>
-            </div>
+    <main class="container">
+        <div class="page-title-box">
+            <h1>Our Delicious Menu</h1>
+            <p>Explore our carefully curated selection of delicious food and beverages prepared fresh daily.</p>
         </div>
-    </section>
 
-    <!-- Menu Content Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
-
-        <!-- 1. Breakfast Category -->
-        <section id="breakfast" class="scroll-mt-28">
-            <div class="flex items-center justify-between mb-8 border-b border-beige-200 pb-4">
-                <div>
-                    <span class="text-caramel font-semibold text-xs uppercase tracking-widest bg-caramel/10 px-3 py-1 rounded-full">Morning Fuel</span>
-                    <h2 class="text-3xl font-bold text-coffee-800 mt-2">Breakfast</h2>
-                </div>
-                <span class="text-taupe text-sm hidden sm:block">Served fresh daily till 12:00 PM</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Item 1 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">The Scholar’s Omelette</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 350</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Fluffy three-egg omelette loaded with bell peppers, onions, green chilies, served with two buttered toast slices.
-                        </p>
+        <section class="menu-category">
+            <h2>🍳 Breakfast</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Classic Omelette & Toast</h3>
+                        <span class="price">PKR 250</span>
                     </div>
-                    <button onclick="addToCart('The Scholar’s Omelette', 350)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Fluffy two-egg farm fresh omelette served with buttered toasted bread and grilled tomatoes.</p>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Desi Breakfast Paratha</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 250</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Crispy golden lachedar paratha served piping hot with fresh raita and a side of spicy potato aloo bhujia.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Stuffed Paratha</h3>
+                        <span class="price">PKR 180</span>
                     </div>
-                    <button onclick="addToCart('Desi Breakfast Paratha', 250)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Traditional whole wheat paratha stuffed with spiced potatoes or lentils, served with mint raita.</p>
                 </div>
-
-                <!-- Item 3 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">French Toast Stack</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 400</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Golden brioche slices soaked in cinnamon egg batter, drizzled generously with honey and powdered sugar.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Pancake Stack</h3>
+                        <span class="price">PKR 300</span>
                     </div>
-                    <button onclick="addToCart('French Toast Stack', 400)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Three fluffy golden pancakes drizzled with maple syrup and topped with fresh seasonal berries.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 2. Fast Food Category -->
-        <section id="fast-food" class="scroll-mt-28">
-            <div class="flex items-center justify-between mb-8 border-b border-beige-200 pb-4">
-                <div>
-                    <span class="text-caramel font-semibold text-xs uppercase tracking-widest bg-caramel/10 px-3 py-1 rounded-full">Quick Bites</span>
-                    <h2 class="text-3xl font-bold text-coffee-800 mt-2">Fast Food</h2>
-                </div>
-                <span class="text-taupe text-sm hidden sm:block">Fast service between lectures</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Item 1 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Campus Crunch Burger</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 550</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Crispy fried chicken thigh layered with signature spicy sauce, fresh iceberg lettuce, and cheese on a toasted bun.
-                        </p>
+        <section class="menu-category">
+            <h2>🍔 Fast Food</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Crispy Zinger Burger</h3>
+                        <span class="price">PKR 450</span>
                     </div>
-                    <button onclick="addToCart('Campus Crunch Burger', 550)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Crunchy fried chicken fillet in a brioche bun with lettuce, signature mayo, and cheese slice.</p>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Loaded Cheese Fries</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 450</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Golden french fries drowned in warm melted cheddar cheese sauce, jalapenos, and bits of savory chicken chunks.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Loaded Fries</h3>
+                        <span class="price">PKR 350</span>
                     </div>
-                    <button onclick="addToCart('Loaded Cheese Fries', 450)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Golden French fries smothered in melted cheddar cheese, jalapeños, and special house sauce.</p>
                 </div>
-
-                <!-- Item 3 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Classic Zinger Wrap</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 480</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Tender crispy chicken strips, fresh veggies, and garlic mayo wrapped tightly in a soft tortilla wrap.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Club Sandwich</h3>
+                        <span class="price">PKR 400</span>
                     </div>
-                    <button onclick="addToCart('Classic Zinger Wrap', 480)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Triple-decker toasted sandwich layered with grilled chicken, egg, lettuce, and creamy spread.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 3. Main Course Category -->
-        <section id="main-course" class="scroll-mt-28">
-            <div class="flex items-center justify-between mb-8 border-b border-beige-200 pb-4">
-                <div>
-                    <span class="text-caramel font-semibold text-xs uppercase tracking-widest bg-caramel/10 px-3 py-1 rounded-full">Hearty Meals</span>
-                    <h2 class="text-3xl font-bold text-coffee-800 mt-2">Main Course</h2>
-                </div>
-                <span class="text-taupe text-sm hidden sm:block">Filling lunch & dinner plates</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Item 1 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Chicken Fried Rice & Manchurian</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 650</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Wok-tossed aromatic egg fried rice served alongside juicy chicken cubes in a rich, tangy garlic manchurian gravy.
-                        </p>
+        <section class="menu-category">
+            <h2>🍛 Main Course</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Chicken Biryani</h3>
+                        <span class="price">PKR 380</span>
                     </div>
-                    <button onclick="addToCart('Chicken Fried Rice & Manchurian', 650)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Aromatic basmati rice cooked with tender chicken pieces, traditional spices, and served with raita.</p>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Creamy Alfredo Pasta</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 700</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Fettuccine pasta tossed in a velvety rich cream and parmesan sauce with grilled chicken chunks and herbs.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Alfredo Pasta</h3>
+                        <span class="price">PKR 550</span>
                     </div>
-                    <button onclick="addToCart('Creamy Alfredo Pasta', 700)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Fettuccine pasta tossed in a rich, creamy garlic parmesan sauce with grilled chicken chunks.</p>
                 </div>
-
-                <!-- Item 3 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Desi Chicken Biryani</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 450</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Fragrant basmati rice layered with tender spiced chicken, aromatic herbs, fried onions, and potatoes.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Chicken Karahi (Single)</h3>
+                        <span class="price">PKR 480</span>
                     </div>
-                    <button onclick="addToCart('Desi Chicken Biryani', 450)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Juicy chicken simmered in a savory tomato and ginger gravy, served piping hot with two naans.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 4. Beverages & Desserts Category -->
-        <section id="beverages" class="scroll-mt-28">
-            <div class="flex items-center justify-between mb-8 border-b border-beige-200 pb-4">
-                <div>
-                    <span class="text-caramel font-semibold text-xs uppercase tracking-widest bg-caramel/10 px-3 py-1 rounded-full">Sips & Sweets</span>
-                    <h2 class="text-3xl font-bold text-coffee-800 mt-2">Beverages & Desserts</h2>
-                </div>
-                <span class="text-taupe text-sm hidden sm:block">Artisanal coffees & sweet treats</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Item 1 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Signature Café Latte</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 320</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Rich espresso blended with steamed milk and a velvety layer of microfoam, crafted to keep you alert.
-                        </p>
+        <section class="menu-category">
+            <h2>☕ Beverages & Desserts</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Campus Special Coffee</h3>
+                        <span class="price">PKR 200</span>
                     </div>
-                    <button onclick="addToCart('Signature Café Latte', 320)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Rich espresso blended with steamed milk and a touch of hazelnut syrup.</p>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Iced Caramel Macchiato</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 380</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Cold milk poured over ice, marked with espresso and finished with a rich buttery caramel drizzle.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Fresh Mint Lemonade</h3>
+                        <span class="price">PKR 150</span>
                     </div>
-                    <button onclick="addToCart('Iced Caramel Macchiato', 380)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Refreshing chilled lemonade infused with freshly crushed mint leaves and rock salt.</p>
                 </div>
-
-                <!-- Item 3 -->
-                <div class="bg-cream rounded-3xl shadow-md border border-beige-200 p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start gap-4 mb-3">
-                            <h3 class="text-xl font-bold text-coffee-800">Chocolate Lava Cake</h3>
-                            <span class="bg-beige-200 text-coffee-800 font-bold px-3 py-1 rounded-xl text-sm whitespace-nowrap">PKR 420</span>
-                        </div>
-                        <p class="text-taupe text-sm leading-relaxed mb-6">
-                            Warm, decadent chocolate cake with a molten gooey center, served alongside a scoop of vanilla ice cream.
-                        </p>
+                <div class="menu-item-card">
+                    <div class="item-header">
+                        <h3>Chocolate Lava Cake</h3>
+                        <span class="price">PKR 320</span>
                     </div>
-                    <button onclick="addToCart('Chocolate Lava Cake', 420)" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream text-sm font-semibold py-3 rounded-2xl shadow transition-colors flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                        <span>Add to Order</span>
-                    </button>
+                    <p>Decadent warm chocolate cake with a gooey molten center, served with vanilla ice cream.</p>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-cream border-t border-beige-200 text-taupe text-sm py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-9 h-9 rounded-full bg-coffee-700 flex items-center justify-center text-cream shadow-sm">
-                            <i class="fa-solid fa-graduation-cap text-caramel"></i>
-                        </div>
-                        <span class="text-xl font-bold text-coffee-800">Campus Bites</span>
-                    </div>
-                    <p class="text-xs leading-relaxed text-taupe">
-                        Fueling your academic journey, one bite at a time. Your favorite cozy cafe on campus.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-coffee-800 mb-3 text-xs uppercase tracking-wider">Opening Hours</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li class="flex justify-between"><span>Mon - Fri:</span> <span class="font-medium text-coffee-800">7:00 AM - 10:00 PM</span></li>
-                        <li class="flex justify-between"><span>Sat - Sun:</span> <span class="font-medium text-coffee-800">8:00 AM - 9:00 PM</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-coffee-800 mb-3 text-xs uppercase tracking-wider">Location</h4>
-                    <p class="text-xs text-taupe">📍 University Student Union, Main Campus</p>
-                </div>
-            </div>
-            <div class="border-t border-beige-200 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs">
-                <p>&copy; 2026 Campus Bites. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 sm:mt-0">
-                    <a href="#" class="hover:text-coffee-800 transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-coffee-800 transition-colors">Terms of Service</a>
-                </div>
-            </div>
-        </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 Campus Bites Cafeteria. Developed collaboratively by Team Git & GitHub.</p>
     </footer>
-
-    <!-- Cart Modal / Slide-over -->
-    <div id="cart-modal" class="fixed inset-0 z-50 bg-coffee-900/50 backdrop-blur-sm hidden flex justify-end transition-opacity">
-        <div class="bg-cream w-full max-w-md h-full shadow-2xl flex flex-col p-6 animate-slideLeft">
-            <div class="flex items-center justify-between border-b border-beige-200 pb-4">
-                <h3 class="text-xl font-bold text-coffee-800 flex items-center space-x-2">
-                    <i class="fa-solid fa-basket-shopping text-caramel"></i>
-                    <span>Your Order Cart</span>
-                </h3>
-                <button onclick="closeCart()" class="p-2 rounded-full hover:bg-beige-200 text-coffee-700 transition-colors">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <div id="cart-items" class="flex-1 overflow-y-auto py-6 space-y-4">
-                <p id="empty-cart-msg" class="text-taupe text-center py-12 text-sm">Your cart is currently empty. Pick a delicious item above!</p>
-            </div>
-
-            <div class="border-t border-beige-200 pt-4 space-y-4">
-                <div class="flex justify-between text-base font-bold text-coffee-800">
-                    <span>Total:</span>
-                    <span id="cart-total">PKR 0</span>
-                </div>
-                <button onclick="checkout()" class="w-full bg-coffee-700 hover:bg-coffee-800 text-cream font-semibold py-3.5 rounded-2xl shadow transition-colors text-center">
-                    Proceed to Checkout
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Interactions -->
-    <script>
-        let cart = [];
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('menu-icon');
-            menu.classList.toggle('hidden');
-            icon.className = menu.classList.contains('hidden') ? "fa-solid fa-bars text-lg" : "fa-solid fa-xmark text-lg";
-        }
-
-        function showToast(title, msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-title').innerText = title;
-            document.getElementById('toast-msg').innerText = msg;
-            
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3500);
-        }
-
-        function addToCart(name, price) {
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({ name, price, quantity: 1 });
-            }
-            updateCartUI();
-            showToast("Added to order!", `${name} has been added to your cart.`);
-        }
-
-        function updateCartUI() {
-            const cartCount = document.getElementById('cart-count');
-            const cartItemsContainer = document.getElementById('cart-items');
-            const cartTotal = document.getElementById('cart-total');
-            const emptyMsg = document.getElementById('empty-cart-msg');
-
-            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.innerText = totalCount;
-
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p id="empty-cart-msg" class="text-taupe text-center py-12 text-sm">Your cart is currently empty. Pick a delicious item above!</p>';
-                cartTotal.innerText = 'PKR 0';
-                return;
-            }
-
-            let html = '';
-            let totalSum = 0;
-
-            cart.forEach((item, index) => {
-                totalSum += item.price * item.quantity;
-                html += `
-                    <div class="flex justify-between items-center bg-beige-50 p-3 rounded-xl border border-beige-200">
-                        <div>
-                            <h4 class="font-semibold text-sm text-coffee-800">${item.name}</h4>
-                            <p class="text-xs text-taupe">PKR ${item.price} × ${item.quantity}</p>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <span class="font-bold text-sm text-coffee-800">PKR ${item.price * item.quantity}</span>
-                            <button onclick="removeFromCart(${index})" class="text-taupe hover:text-red-500 transition-colors">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            cartItemsContainer.innerHTML = html;
-            cartTotal.innerText = `PKR ${totalSum}`;
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function openCart() {
-            document.getElementById('cart-modal').classList.remove('hidden');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-modal').classList.add('hidden');
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-            alert("Thank you! Your order has been placed successfully at Campus Bites.");
-            cart = [];
-            updateCartUI();
-            closeCart();
-        }
-    </script>
 </body>
 </html>
